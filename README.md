@@ -3,31 +3,24 @@ icolor.js
 
 Colors for Javascript
 
-Usage
-~~~~~
+### Usage
 
+    require('./icolor');
 
-``` js
+    console.log("bluestring".blue);
+    console.log("bold with purple background".purplebg.bold);
 
-require('./icolor');
-
-console.log("bluestring".blue);
-console.log("bold with purple background".purplebg.bold);
-
-```
-
-This is the same style ans syntax as
+This is the same style and syntax as
 [colors.js](https://github.com/Marak/colors.js).
 
-Uses `cake` to for toasting and testing.
+Uses [`cake`](http://coffeescript.org/#cake) for toasting and testing.
 
-See also
-~~~~~~~~
+### See also
 
 [icolor for Python](https://github.com/brianmhunt/icolor)
 
-MIT License
-~~~~~~~
+### MIT License
+
 Copyright (C) 2012 Brian M Hunt
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
