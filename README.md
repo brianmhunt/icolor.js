@@ -6,8 +6,20 @@ Colors for Javascript
 Usage
 ~~~~~
 
-"bluestring".blue
-"bold with purple background".purplebg.bold
+
+``` js
+
+require('./icolor');
+
+console.log("bluestring".blue);
+console.log("bold with purple background".purplebg.bold);
+
+```
+
+This is the same style ans syntax as
+[colors.js](https://github.com/Marak/colors.js).
+
+Uses `cake` to for toasting and testing.
 
 See also
 ~~~~~~~~
