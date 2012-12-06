@@ -1,5 +1,6 @@
 
 // -- from: lib/icolor.coffee -- \\
+
 /*
   icolor
   ======
@@ -40,56 +41,57 @@
   SOFTWARE.
 */
 
-var ANSI_CODE_MAP, COLOR_MAP, ESC, code, color_name, esc, insig, name, _addProp;
 
-ESC = String.fromCharCode(27);
+(function() {
+  var ANSI_CODE_MAP, COLOR_MAP, code, color_name, esc, insig, name, _addProp;
 
-esc = function(number) {
-  return "" + ESC + "[" + number + "m";
-};
+  esc = function(code) {
+    return "" + (String.fromCharCode(27)) + "[" + code + "m";
+  };
 
-COLOR_MAP = {
-  black: 0,
-  red: 1,
-  green: 2,
-  yellow: 3,
-  blue: 4,
-  magenta: 5,
-  purple: 5,
-  cyan: 6,
-  white: 7,
-  "default": 9
-};
+  COLOR_MAP = {
+    black: 0,
+    red: 1,
+    green: 2,
+    yellow: 3,
+    blue: 4,
+    magenta: 5,
+    purple: 5,
+    cyan: 6,
+    white: 7,
+    "default": 9
+  };
 
-ANSI_CODE_MAP = {
-  reset: [0, 0],
-  bold: [1, 22],
-  italics: [3, 23],
-  inverse: [7, 27],
-  strike: [9, 29],
-  underline: [4, 24]
-};
+  ANSI_CODE_MAP = {
+    reset: [0, 0],
+    bold: [1, 22],
+    italics: [3, 23],
+    inverse: [7, 27],
+    strike: [9, 29],
+    underline: [4, 24]
+  };
 
-for (color_name in COLOR_MAP) {
-  insig = COLOR_MAP[color_name];
-  ANSI_CODE_MAP[color_name] = [30 + insig, 39];
-  ANSI_CODE_MAP[color_name + "bg"] = [40 + insig, 49];
-}
+  for (color_name in COLOR_MAP) {
+    insig = COLOR_MAP[color_name];
+    ANSI_CODE_MAP[color_name] = [30 + insig, 39];
+    ANSI_CODE_MAP[color_name + "bg"] = [40 + insig, 49];
+  }
 
-_addProp = function(name, code) {
-  var getter;
-  getter = Object.defineProperty(String.prototype, name, {
-    get: function() {
-      return esc(code[0]) + this + esc(code[1]);
-    }
+  _addProp = function(name, code) {
+    Object.defineProperty(String.prototype, name, {
+      get: function() {
+        return esc(code[0]) + this + esc(code[1]);
+      }
+    });
+  };
+
+  for (name in ANSI_CODE_MAP) {
+    code = ANSI_CODE_MAP[name];
+    _addProp(name, code);
+  }
+
+  Object.defineProperty(String.prototype, 'stripColors', function() {
+    return ("" + this).replace(/\u001b\[\d+m/g, '');
   });
-};
 
-for (name in ANSI_CODE_MAP) {
-  code = ANSI_CODE_MAP[name];
-  _addProp(name, code);
-}
-
-Object.defineProperty(String.prototype, 'stripColors', function() {
-  return ("" + this).replace(/\u001b\[\d+m/g, '');
-});
+}).call(this);

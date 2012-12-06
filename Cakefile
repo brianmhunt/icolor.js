@@ -78,7 +78,7 @@ task 'toast', "Build the project into the build/ dir", (options) ->
   source = _.map(sources, (src_file) ->
     src_file = require('path').join(SRC_DIR, src_file)
     console.log "Compiling #{src_file}."
-    js = coffee.compile fs.readFileSync(src_file, 'utf8'), {bare: true}
+    js = coffee.compile fs.readFileSync(src_file, 'utf8')
     return "\n// -- from: #{src_file} -- \\\\\n" + js
   ).join("\n")
 

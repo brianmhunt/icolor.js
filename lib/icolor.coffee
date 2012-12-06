@@ -38,10 +38,9 @@
   SOFTWARE.
 ###
 
-ESC = String.fromCharCode(27)
-
-esc = (number) ->
-  return "#{ESC}[#{number}m"
+esc = (code) ->
+  # return a string with ansi escape code 'code'
+  return "#{String.fromCharCode(27)}[#{code}m"
 
 # These are the insignificant digits of the ANSI color codes
 # eg x4 is blue; x may be 3 for foreground, 4 for background
@@ -57,6 +56,7 @@ COLOR_MAP =
   white:   7
   default: 9
 
+# maps names to [start-code, stop-code]
 ANSI_CODE_MAP =
   reset:     [0, 0]
   bold:      [1, 22]
@@ -72,7 +72,7 @@ for color_name, insig of COLOR_MAP
 _addProp = (name, code) ->
   # this must be a function all to itself so that 'code' has proper scope
   # (otherwise everything will be defaultbg -- the last item)
-  getter = Object.defineProperty(String.prototype, name, get: ->
+  Object.defineProperty(String.prototype, name, get: ->
     return esc(code[0]) + @ + esc(code[1])
   )
   return
