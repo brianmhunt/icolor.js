@@ -1,7 +1,9 @@
 icolor.js
 =========
 
-Colors for Javascript
+Colors for Javascript on the console.
+
+Compatible with Node and PhantomJS.
 
 ### Installation
 
