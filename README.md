@@ -3,9 +3,13 @@ icolor.js
 
 Colors for Javascript
 
+### Installation
+
+    npm install icolor
+
 ### Usage
 
-    require('./icolor');
+    require('icolor');
 
     console.log("bluestring".blue);
     console.log("bold with purple background".purplebg.bold);
@@ -14,6 +18,7 @@ This is the same style and syntax as
 [colors.js](https://github.com/Marak/colors.js).
 
 Uses [`cake`](http://coffeescript.org/#cake) for toasting and testing.
+
 
 ### See also
 
