@@ -38,9 +38,16 @@
   SOFTWARE.
 ###
 
+icolorEnabled = Object.getOwnPropertyDescriptor(String.prototype,
+  'icolorEnabled')
+
+# prevent running twice
+if icolorEnabled != undefined
+  return
+
 esc = (code) ->
   # return a string with ansi escape code 'code'
-  return "#{String.fromCharCode(27)}[#{code}m"
+  return "\u001b[#{code}m"
 
 # These are the insignificant digits of the ANSI color codes
 # eg x4 is blue; x may be 3 for foreground, 4 for background
@@ -73,12 +80,23 @@ _addProp = (name, code) ->
   # this must be a function all to itself so that 'code' has proper scope
   # (otherwise everything will be defaultbg -- the last item)
   Object.defineProperty(String.prototype, name, get: ->
-    return esc(code[0]) + @ + esc(code[1])
+    if @icolorEnabled
+      return esc(code[0]) + @ + esc(code[1])
+    return String(@)
   )
   return
 
 for name, code of ANSI_CODE_MAP
   _addProp(name, code)
+
+# toggle for turning iColor on and off
+String.prototype.icolorEnabled = true
+String.icolorToggle = String.prototype.icolorToggle = (enable) ->
+  if enable
+    String.prototype.icolorEnabled = enable
+  else
+    String.prototype.icolorEnabled = not String.prototype.icolorEnabled
+  return @
 
 # rip out colors from string
 Object.defineProperty(String.prototype, 'stripColors', ->

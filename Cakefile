@@ -14,12 +14,17 @@
 # Based on sample cakefile at
 # https://github.com/kompiro/Cakefile-Sample/
 
-{spawn} = require 'child_process'
-{log} = require 'util'
-fs = require 'fs'
-glob = require 'glob'
-_ = require 'lodash'
-coffee = require 'coffee-script'
+try
+  {spawn} = require 'child_process'
+  {log} = require 'util'
+  fs = require 'fs'
+  glob = require 'glob'
+  _ = require 'lodash'
+  coffee = require 'coffee-script'
+catch err
+  console.log("Some packages were not found. Perhaps run 'npm install'?")
+  throw new Error("Unable to load packages: #{err}")
+
 
 SRC_DIR = 'lib'
 COFFEE_SRC = ['icolor.coffee']
@@ -34,8 +39,19 @@ task 'test', 'Print some pretty colors to the console', (options) ->
   ]
   for color in colors
     console.log("#{color}"[color])
-  console.log("blue inverse".blue.inverse)
+
+  console.log("blue inverse".blue.yellowbg.inverse)
+
+  # String.icolorEnabled = false
+  String.icolorToggle(false)
+  console.log("Yellowbg - except colors are disabled".yellowbg)
+
+  console.log("a blue string - colors re-enabled".icolorToggle().blue)
+
   console.log("white bold underline".white.bold.underline)
+
+  # include twice
+  console.log("green bluebg".green.bluebg)
 
 task 'deploy', 'Publish a patch release on npm (increments patch number)', ->
   semver = require('semver')

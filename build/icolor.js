@@ -43,10 +43,16 @@
 
 
 (function() {
-  var ANSI_CODE_MAP, COLOR_MAP, code, color_name, esc, insig, name, _addProp;
+  var ANSI_CODE_MAP, COLOR_MAP, code, color_name, esc, icolorEnabled, insig, name, _addProp;
+
+  icolorEnabled = Object.getOwnPropertyDescriptor(String.prototype, 'icolorEnabled');
+
+  if (icolorEnabled !== void 0) {
+    return;
+  }
 
   esc = function(code) {
-    return "" + (String.fromCharCode(27)) + "[" + code + "m";
+    return "\u001b[" + code + "m";
   };
 
   COLOR_MAP = {
@@ -80,7 +86,10 @@
   _addProp = function(name, code) {
     Object.defineProperty(String.prototype, name, {
       get: function() {
-        return esc(code[0]) + this + esc(code[1]);
+        if (this.icolorEnabled) {
+          return esc(code[0]) + this + esc(code[1]);
+        }
+        return String(this);
       }
     });
   };
@@ -89,6 +98,17 @@
     code = ANSI_CODE_MAP[name];
     _addProp(name, code);
   }
+
+  String.prototype.icolorEnabled = true;
+
+  String.icolorToggle = String.prototype.icolorToggle = function(enable) {
+    if (enable) {
+      String.prototype.icolorEnabled = enable;
+    } else {
+      String.prototype.icolorEnabled = !String.prototype.icolorEnabled;
+    }
+    return this;
+  };
 
   Object.defineProperty(String.prototype, 'stripColors', function() {
     return ("" + this).replace(/\u001b\[\d+m/g, '');

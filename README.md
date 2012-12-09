@@ -16,11 +16,16 @@ Compatible with Node and PhantomJS.
     console.log("bluestring".blue);
     console.log("bold with purple background".purplebg.bold);
 
+    String.icolorToggle(false); // disable colors
+    console.log("no colors".blue);
+    console.log("re-enabled colors".icolorToggle().blue)
+
 This is the same style and syntax as
 [colors.js](https://github.com/Marak/colors.js).
 
 Uses [`cake`](http://coffeescript.org/#cake) for toasting and testing.
 
+Use `String.icolorToggle(enable)` to turn ANSI escape codes on and off.
 
 ### See also
 

@@ -1,6 +1,6 @@
 {
   "name": "icolor",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Add ANSI colors to strings",
   "author": "Brian M Hunt <brianmhunt@gmail.com>",
   "dependencies": {},
