@@ -50,8 +50,12 @@ task 'test', 'Print some pretty colors to the console', (options) ->
 
   console.log("white bold underline".white.bold.underline)
 
+  # icolorToggle does not remove ANSI codes that are already on a string; it
+  # just prevents new ones from being added
+  console.log("green - ignore after-toggle".green.icolorToggle(false).bluebg)
+
   # include twice
-  console.log("green bluebg".green.bluebg)
+  console.log("green bluebg".icolorToggle(true).green.bluebg)
 
 task 'deploy', 'Publish a patch release on npm (increments patch number)', ->
   semver = require('semver')
